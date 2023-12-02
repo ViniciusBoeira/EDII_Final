@@ -1,7 +1,3 @@
-expressao = input()
-
-operadores = ['+', '-', '/', '*']
-
 class Node:
     def __init__(self, esquerda=None, direita=None, valor=None, posicao=None):
         self.esquerda = esquerda
@@ -43,7 +39,6 @@ def defineRoot(expressao):
         if expressao[i] in operadores:
             substring = expressao[0:i]
             operador = Operadores(valor = expressao[i], parenteses = substring.count('(') - substring.count(')'), posicao = i)
-            #print(substring)
             opPresentes.append(operador)
 
     raizOperador = None
@@ -80,13 +75,9 @@ def defineSubRoot(expressao):
     if(len(opPresentes) == 0):
         if(expressao[0] == '(' or expressao[0] == ')'):
             expressao = expressao.replace('(', '').replace(')', '') 
-            #print (expressao[0:])
             return expressao[0:]
-            #raizOperador = Operadores(valor = expressao[1:], posicao = 0)
         else:
             expressao = expressao.replace('(', '').replace(')', '')
-            #print(expressao[0:])
-            #raizOperador = Operadores(valor = expressao[0:-1], posicao = 0)
             return expressao[0:]
     else:    
         for operador in opPresentes:
@@ -108,31 +99,6 @@ def defineSubRoot(expressao):
 
     return nodo
 
-teste = defineRoot(expressao)
-#print(f'DIREITA DA RAIZ: {teste.direita}')
-#print(f'ESQUERDA DA RAIZ: {teste.esquerda.valor}')
-#print(f'DIREITA DA ESQUERDA DA RAIZ: {teste.esquerda.direita}')
-
-# def calcular(node):
-#     if node is None:
-#         return 0
-#     if node.valor in ['+', '-', '*', '/']:
-#         esquerda = calcular(node.esquerda)
-#         direita = calcular(node.direita)
-#         if node.valor == '+':
-#             return esquerda + direita
-#         elif node.valor == '-':
-#             return esquerda - direita
-#         elif node.valor == '*':
-#             return esquerda * direita
-#         elif node.valor == '/':
-#             if direita != 0:
-#                 return esquerda / direita
-#             else:
-#                 print("Erro: divisão por zero!")
-#                 return 0
-#     else:
-#         return int(node.valor)
 def calcular(node):
     if isinstance(node, Node):
         if node.valor in ['+', '-', '*', '/']:
@@ -153,5 +119,10 @@ def calcular(node):
     else:
         return float(node)
 
-#print('teste')    
-print(calcular(teste))
+expressao = input()
+if(expressao.count('(') != expressao.count(')')):
+    print("Erro: parênteses desbalanceados")
+else:
+    operadores = ['+', '-', '/', '*']
+    calcularExpressao = defineRoot(expressao)
+    print(calcular(calcularExpressao))
